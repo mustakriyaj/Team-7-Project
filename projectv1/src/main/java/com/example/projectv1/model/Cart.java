@@ -1,9 +1,12 @@
 package com.example.projectv1.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -17,8 +20,8 @@ public class Cart {
 	@OneToOne
 	private Customer cus;
 	
-	@OneToMany(mappedBy="cart",cascade = CascadeType.ALL)
-	private Map<Product, Integer>products;
+	@OneToMany(mappedBy="cart",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+	private List<Product>products=new ArrayList<>();
 	
 	
 	public Cart() {
@@ -31,10 +34,11 @@ public class Cart {
 		this.cartId = cartId;
 	}
 	
-	public Map<Product, Integer> getProducts() {
+	
+	public List<Product> getProducts() {
 		return products;
 	}
-	public void setProducts(Map<Product, Integer> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 	public Customer getCus() {

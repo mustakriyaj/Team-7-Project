@@ -1,9 +1,12 @@
 package com.example.projectv1.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -14,8 +17,8 @@ public class Category {
 	private int catId;
 	private String categoryName;
 	
-	@OneToMany(mappedBy="category",cascade = CascadeType.ALL)
-	private Map<Product, Integer>products;
+	@OneToMany(mappedBy="category",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+	private List<Product>products=new ArrayList<>();
 	
 	
 	public Category() {
@@ -33,10 +36,10 @@ public class Category {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public Map<Product, Integer> getProducts() {
+	public List<Product> getProducts() {
 		return products;
 	}
-	public void setProducts(Map<Product, Integer> products) {
+	public void setProducts(List<Product> products) {
 		this.products = products;
 	}
 	

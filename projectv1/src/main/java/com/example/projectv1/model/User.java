@@ -2,6 +2,7 @@ package com.example.projectv1.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -14,7 +15,7 @@ public class User {
 	private String password;
 	private String role;
 	
-	@OneToOne(mappedBy="user",cascade = CascadeType.ALL)
+	@OneToOne(mappedBy="user",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
 	private Customer cus;
 	
 	

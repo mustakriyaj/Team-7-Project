@@ -1,10 +1,13 @@
 package com.example.projectv1.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -17,8 +20,8 @@ public class Order {
 	private String orderStatus;
 	private LocalDate orderDate;
 	
-	@OneToMany(mappedBy="order",cascade = CascadeType.ALL)
-	private Map <Product,Integer> product;
+	@OneToMany(mappedBy="order",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
+	private List<Product> product=new ArrayList<>();
 	
 	@OneToOne
 	private Customer cus;
@@ -53,14 +56,14 @@ public class Order {
 	}
 
 	
-	public Map<Product, Integer> getProduct() {
+	
+
+	public List<Product> getProduct() {
 		return product;
 	}
-
-	public void setProduct(Map<Product, Integer> product) {
+	public void setProduct(List<Product> product) {
 		this.product = product;
 	}
-
 	public Customer getCus() {
 		return cus;
 	}

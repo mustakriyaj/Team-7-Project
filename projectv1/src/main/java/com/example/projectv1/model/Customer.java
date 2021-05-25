@@ -2,6 +2,7 @@ package com.example.projectv1.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -15,7 +16,7 @@ public class Customer {
 	private String mobileNumber;
 	private String email;
 	
-	@OneToOne(mappedBy="cus",cascade = CascadeType.ALL)
+	@OneToOne(mappedBy="cus",fetch=FetchType.EAGER,cascade = CascadeType.ALL)
 	private Address address;
 	
 	@OneToOne

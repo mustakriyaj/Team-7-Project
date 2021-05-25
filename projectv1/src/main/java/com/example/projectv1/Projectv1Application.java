@@ -1,9 +1,9 @@
 package com.example.projectv1;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -50,7 +50,9 @@ public class Projectv1Application implements CommandLineRunner{
 	@Autowired 
 	private IProductRepository productRep;
 	
+	@SuppressWarnings("deprecation")
 	public void run(String...args) throws Exception{
+		Date d = new Date();
 		
 		Address address1 = new Address();
 		Customer customer1 = new Customer();
@@ -81,19 +83,19 @@ public class Projectv1Application implements CommandLineRunner{
 
 		
 		product1.setProductId(6001);
-		product1.setProductName("Jharu");
+		product1.setProductName("Jh");
 		product1.setPrice(10000.00);
 		product1.setColor("sobuj");
 		product1.setDimension("4D");
-		product1.setSpecification("sobuj jharu, gujrat ko maru");
+		product1.setSpecification("sobuj j");
 		product1.setManufacturer("Xx_Aukur_xX");
 		product1.setQuantity(2);
 		product1.setCategory(category1);
 		product1.setOrder(order1);
 		product1.setCart(cart1);
 		
-		Map<Product, Integer> m1 = new HashMap<Product, Integer>();
-		m1.put(product1, 6001);
+		List<Product> m1 = new ArrayList<Product>();
+		m1.add(product1);
 		
 		
 		cart1.setCartId(2001);
@@ -126,6 +128,17 @@ public class Projectv1Application implements CommandLineRunner{
 		orderRep.save(order1);
 		productRep.save(product1);
 		
+		Address a1 = addressRep.findById((int) 1001).get();
+		System.out.println(a1);
+		
+		Customer c1 = customerRep.findById((int) 4001).get();
+		System.out.println(c1);
+		
+		Cart ct1 = cartRep.findById((int) 2001).get();
+		System.out.println(ct1);
+		
+		User u1 = loginRep.findById("lol@lol.lol").get();
+		System.out.println(u1);
 	}
 	
 }

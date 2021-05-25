@@ -14,6 +14,10 @@ public class Address {
 	private String country;	
 	private String pincode;
 	
+	
+	@OneToOne(mappedBy="address")
+	private Order order;
+	
 	@OneToOne
 	private Customer cus;
 	
