@@ -29,18 +29,18 @@ public class AddressController
 	IAddressServiceImp addressService;
 	
 	@PostMapping("/addaddress")
-	public SuccessMessageDto AddAddress(@RequestBody AddressDto adddressDto) throws ValidateAddressException, CustomerNotFoundException
+	public SuccessMessageDto addAddress(@RequestBody AddressDto adddressDto) throws ValidateAddressException, CustomerNotFoundException
 	{
-		Address address= addressService.AddAddress(adddressDto);
+		Address address= addressService.addAddress(adddressDto);
 		return new SuccessMessageDto(ShoppingConstants.ADDRESS_ADDED+ address.getAddressId());
 	}
 	
-	@DeleteMapping("/removeaddress/{id}")
-	public SuccessMessageDto removeAddress(@PathVariable("id") Integer addressId) throws AddressIdException
-	{
-		addressService.removeAddress(addressId);
-		return new SuccessMessageDto(ShoppingConstants.ADDRESS_REMOVED);
-	}
+//	@DeleteMapping("/removeaddress/{id}")
+//	public SuccessMessageDto removeAddress(@PathVariable("id") Integer addressId) throws AddressIdException
+//	{
+//		addressService.removeAddress(addressId);
+//		return new SuccessMessageDto(ShoppingConstants.ADDRESS_REMOVED);
+//	}
 	
 	@PutMapping("/updateaddress")
 	public SuccessMessageDto updateAddress(@RequestBody AddressDto add) throws AddressIdException, ValidateAddressException, CustomerNotFoundException 

@@ -10,6 +10,37 @@ public class AddressDto
 	private String country;	
 	private String pincode;
 	private Integer addressId;
+	
+	public AddressDto() {
+		super();
+	}
+	
+	public AddressDto(Integer customerId, String streetNo, String buildingName, String city, String state,
+			String country, String pincode, Integer addressId) {
+		super();
+		this.customerId = customerId;
+		this.streetNo = streetNo;
+		this.buildingName = buildingName;
+		this.city = city;
+		this.state = state;
+		this.country = country;
+		this.pincode = pincode;
+		this.addressId = addressId;
+	}
+	
+	
+	public AddressDto(Integer customerId, String streetNo, String buildingName, String city, String state,
+			String country, String pincode) {
+		super();
+		this.customerId = customerId;
+		this.streetNo = streetNo;
+		this.buildingName = buildingName;
+		this.city = city;
+		this.state = state;
+		this.country = country;
+		this.pincode = pincode;
+	}
+
 	public String getStreetNo() {
 		return streetNo;
 	}

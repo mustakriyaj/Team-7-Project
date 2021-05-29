@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User 
 {
@@ -13,7 +15,7 @@ public class User
 	
 	private String password;
 	private String role;
-	
+	@JsonIgnore
 	@OneToOne(mappedBy="user",cascade = CascadeType.ALL)
 	private Customer cus;
 

@@ -24,7 +24,7 @@ public class IAddressServiceImp implements IAddressService {
 	@Autowired
 	private ICustomerRepository customerDao;
 
-	public Address AddAddress(AddressDto addressDto) throws ValidateAddressException, CustomerNotFoundException {
+	public Address addAddress(AddressDto addressDto) throws ValidateAddressException, CustomerNotFoundException {
 		validateAddress(addressDto);
 		Address address = new Address();
 		Optional<Customer> optCustomer = customerDao.findById(addressDto.getCustomerId());
@@ -37,8 +37,8 @@ public class IAddressServiceImp implements IAddressService {
 		address.setPincode(addressDto.getPincode());
 		address.setState(addressDto.getState());
 		address.setCustomer(optCustomer.get());
-		Address savedAddress=addressDao.save(address);
-		return savedAddress;
+		return addressDao.save(address);
+		
 	}
 
 	public Address updateAddress(AddressDto addressDto)
@@ -59,8 +59,7 @@ public class IAddressServiceImp implements IAddressService {
 		address.setPincode(addressDto.getPincode());
 		address.setState(addressDto.getState());
 		address.setCustomer(customer);
-		Address updatedAddress = addressDao.save(address);
-		return updatedAddress;
+		return addressDao.save(address);
 
 	}
 
@@ -68,13 +67,13 @@ public class IAddressServiceImp implements IAddressService {
 		if (!addressDto.getStreetNo().matches("[A-Za-z0-9]{1,3}")) {
 			throw new ValidateAddressException(ShoppingConstants.STREET_CANNOT_BE_EMPTY);
 		}
-		if (!addressDto.getBuildingName().matches("([a-zA-Z])|([A-Za-z]+[ ]{1}[a-zA-Z]+)"))
+		if (!addressDto.getBuildingName().matches(ShoppingConstants.ADDRESS_PATTERN))
 			throw new ValidateAddressException(ShoppingConstants.BUILDING_CANNOT_BE_EMPTY);
-		if (!addressDto.getCity().matches("([a-zA-Z])|([A-Za-z]+[ ]{1}[a-zA-Z]+)"))
+		if (!addressDto.getCity().matches(ShoppingConstants.ADDRESS_PATTERN))
 			throw new ValidateAddressException(ShoppingConstants.CITY_CANNOT_BE_EMPTY);
-		if (!addressDto.getCountry().matches("([a-zA-Z])|([A-Za-z]+[ ]{1}[a-zA-Z]+)"))
+		if (!addressDto.getCountry().matches(ShoppingConstants.ADDRESS_PATTERN))
 			throw new ValidateAddressException(ShoppingConstants.COUNTRY_CANNOT_BE_EMPTY);
-		if (!addressDto.getState().matches("([a-zA-Z])|([A-Za-z]+[ ]{1}[a-zA-Z]+)"))
+		if (!addressDto.getState().matches(ShoppingConstants.ADDRESS_PATTERN))
 			throw new ValidateAddressException(ShoppingConstants.STATE_CANNOT_BE_EMPTY);
 		if (!addressDto.getPincode().matches("[1-9][0-9]{5}"))
 			throw new ValidateAddressException(ShoppingConstants.PINCODE_CANNOT_BE_EMPTY);

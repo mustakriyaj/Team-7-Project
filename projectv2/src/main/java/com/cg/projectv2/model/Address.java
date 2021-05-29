@@ -22,17 +22,6 @@ public class Address {
 	
 	@OneToOne
 	private Customer customer;
-	
-	@OneToOne(mappedBy="address",cascade = CascadeType.ALL)
-	private Order1 ord;
-	
-	public Order1 getOrd() {
-		return ord;
-	}
-
-	public void setOrd(Order1 ord) {
-		this.ord = ord;
-	}
 
 	public int getAddressId() {
 		return addressId;
