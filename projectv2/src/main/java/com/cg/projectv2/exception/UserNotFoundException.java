@@ -1,0 +1,15 @@
+package com.cg.projectv2.exception;
+
+public class UserNotFoundException extends Exception{
+
+	public UserNotFoundException() {
+		super();
+		
+	}
+
+	public UserNotFoundException(String message) {
+		super(message);
+		
+	}
+	
+}

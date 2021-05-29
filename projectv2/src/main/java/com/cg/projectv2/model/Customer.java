@@ -2,6 +2,8 @@ package com.cg.projectv2.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -12,7 +14,8 @@ public class Customer
 {
 	
 	@Id
-	private int customerId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer customerId;
 	
 	private String firstName;
 	private String lastName;
@@ -31,11 +34,11 @@ public class Customer
 	@OneToOne(mappedBy="customer",cascade = CascadeType.ALL)
 	private Order1 ord;
 
-	public int getCustomerId() {
+	public Integer getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(int customerId) {
+	public void setCustomerId(Integer customerId) {
 		this.customerId = customerId;
 	}
 

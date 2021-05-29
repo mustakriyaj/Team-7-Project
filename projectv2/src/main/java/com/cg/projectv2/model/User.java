@@ -2,6 +2,8 @@ package com.cg.projectv2.model;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
@@ -11,19 +13,21 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User 
 {
 	@Id
-	private String userId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer userId;
 	
+	private String userEmail;
 	private String password;
 	private String role;
 	@JsonIgnore
 	@OneToOne(mappedBy="user",cascade = CascadeType.ALL)
 	private Customer cus;
 
-	public String getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -49,6 +53,14 @@ public class User
 
 	public void setCus(Customer cus) {
 		this.cus = cus;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
 	
 	

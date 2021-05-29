@@ -29,9 +29,9 @@ public class AddressController
 	IAddressServiceImp addressService;
 	
 	@PostMapping("/addaddress")
-	public SuccessMessageDto addAddress(@RequestBody AddressDto adddressDto) throws ValidateAddressException, CustomerNotFoundException
+	public SuccessMessageDto addAddress(@RequestBody AddressDto addressDto) throws ValidateAddressException, CustomerNotFoundException
 	{
-		Address address= addressService.addAddress(adddressDto);
+		Address address= addressService.addAddress(addressDto);
 		return new SuccessMessageDto(ShoppingConstants.ADDRESS_ADDED+ address.getAddressId());
 	}
 	

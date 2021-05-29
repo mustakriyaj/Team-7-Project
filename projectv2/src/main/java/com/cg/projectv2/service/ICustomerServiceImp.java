@@ -6,98 +6,114 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
-import com.cg.projectv2.model.Address;
+import com.cg.projectv2.dto.CustomerDto;
+import com.cg.projectv2.exception.CustomerIdException;
+import com.cg.projectv2.exception.UserNotFoundException;
+import com.cg.projectv2.exception.ValidateCustomerException;
 import com.cg.projectv2.model.Customer;
-import com.cg.projectv2.repository.IAddressRepository;
+import com.cg.projectv2.model.User;
 import com.cg.projectv2.repository.ICustomerRepository;
+import com.cg.projectv2.repository.ILoginRepository;
+import com.cg.projectv2.util.ShoppingConstants;
 
 @Service
 public class ICustomerServiceImp implements ICustomerService
 {
 	@Autowired
-	ICustomerRepository repository;
+	ICustomerRepository customerDao;
 	@Autowired
-	IAddressRepository repository1;
-	@Override
-	public Customer addCustomer(Customer cust) {
-		Optional<Customer> findById = repository.findById(cust.getCustomerId());
-		if(!findById.isPresent()) {
-			return repository.save(cust);
-		}
+	ILoginRepository userDao;
+	
+	public Customer addCustomer(CustomerDto customerDto) throws ValidateCustomerException, UserNotFoundException {
+		validateCustomer(customerDto);
+		Customer customer = new Customer();
+		Optional<User> optUser = userDao.findById(customerDto.getUserId());
+		if (!optUser.isPresent())
+			throw new UserNotFoundException(ShoppingConstants.USER_NOT_FOUND);
+		customer.setFirstName(customerDto.getFirstName());
+		customer.setLastName(customerDto.getLastName());
+		customer.setMobileNumber(customerDto.getMobileNumber());
+		customer.setEmail(customerDto.getEmail());
+		customer.setUser(optUser.get());
+		return customerDao.save(customer);
+	}
+
+	private boolean validateCustomer(CustomerDto customerDto) throws ValidateCustomerException {
+	
+		if (!customerDto.getFirstName().matches(ShoppingConstants.CUSTOMER_PATTERN)) 
+			throw new ValidateCustomerException(ShoppingConstants.CUSTOMER_CANNOT_BE_EMPTY);
 		
-		return cust;
-//		else
-//			throw new AddressException("Address already present");
+		if (!customerDto.getLastName().matches(ShoppingConstants.CUSTOMER_PATTERN)) 
+			throw new ValidateCustomerException(ShoppingConstants.CUSTOMER_CANNOT_BE_EMPTY);
+		
+		if (!customerDto.getMobileNumber().matches("[1-9][0-9]{9}"))
+			throw new ValidateCustomerException(ShoppingConstants.PHONENUMBER_CANNOT_BE_EMPTY);
+		
+		if (!customerDto.getEmail().matches("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$"))
+			throw new ValidateCustomerException(ShoppingConstants.EMAIL_CANNOT_BE_EMPTY);
+		return true;
 	}
 
-	public Address updateAddress(Address add) {
-		Optional<Address> findById = repository1.findById(add.getAddressId());
-		if(findById.isPresent())
-		{
-			add.setStreetNo(add.getStreetNo());
-			add.setBuildingName(add.getBuildingName());
-			add.setCity(add.getCity());
-			add.setState(add.getState());
-			add.setCountry(add.getCountry());
-			add.setPincode(add.getPincode());
-			add.setCustomer(add.getCustomer());
-			add.setOrd(add.getOrd());
-			repository1.save(add);
-			}
-		return null;
-	}
+	
 
+	public Customer updateCustomer(CustomerDto customerDto) throws CustomerIdException, ValidateCustomerException, UserNotFoundException {
+		validateCustomer(customerDto);
+		Optional<Customer> optCustomer = customerDao.findById(customerDto.getCustomerId());
+		if (!optCustomer.isPresent())
+			throw new CustomerIdException(ShoppingConstants.CUSTOMER_NOT_FOUND);
+		Optional<User> optUser = userDao.findById(customerDto.getUserId());
+		if (!optUser.isPresent())
+			throw new UserNotFoundException(ShoppingConstants.USER_NOT_FOUND);
+		Customer customer = optCustomer.get();
+		User user = optUser.get();
+		customer.setFirstName(customerDto.getFirstName());
+		customer.setLastName(customerDto.getLastName());
+		customer.setMobileNumber(customerDto.getMobileNumber());
+		customer.setEmail(customerDto.getEmail());
+		customer.setUser(user);
+		return customerDao.save(customer);
+
+	}
+	
 	@Override
-	public Customer updateCustomer(Customer cust) {
-		Optional<Customer> findById = repository.findById(cust.getCustomerId());
-		if(findById.isPresent())
-		{
-			//cust.setCustomerId(cust.getCustomerId());
-			cust.setFirstName(cust.getFirstName());
-			cust.setLastName(cust.getLastName());
-			cust.setMobileNumber(cust.getMobileNumber());
-			cust.setEmail(cust.getEmail());
-			cust.setUser(cust.getUser());
-			cust.setAddress(cust.getAddress());
-			cust.setCart(cust.getCart());
-			cust.setOrd(cust.getOrd());
-			
-			repository.save(cust);
+	public Customer viewCustomer(Integer customerId) throws CustomerIdException {
+		Optional<Customer> optcustomer = customerDao.findById(customerId);
+		if (!optcustomer.isPresent()) {
+			throw new CustomerIdException(ShoppingConstants.CUSTOMER_NOT_FOUND);
+
 		}
-		/*else
-			throw new RecordNotFoundException("No Record Found");
-	}*/
-		return null;
+		return optcustomer.get();
 	}
 
+
+	
+
 	@Override
-	public Customer removeCustomer(Customer cust) {
-		Optional<Customer> findById = repository.findById(cust.getCustomerId());
-		if(findById.isPresent()) {
-			Customer c = findById.get();
-			repository.delete(cust);
-			return c;
+	public boolean removeCustomer(Integer customerId) throws CustomerIdException {
+		
+			Optional<Customer> optcustomer = customerDao.findById(customerId);
+
+			if (!optcustomer.isPresent()) {
+				throw new CustomerIdException(ShoppingConstants.CUSTOMER_NOT_FOUND);
+
 			}
-		return cust;
-	}
+			customerDao.delete(optcustomer.get());
+			return true;
+		}
+
+
 
 	@Override
-	public Customer viewCustomer(Customer cust) {
-		Optional<Customer> findById = repository.findById(cust.getCustomerId());
-		if(findById.isPresent()) {
-			return findById.get();
-		}
-		return cust;
-//		else 
-//			throw new CustomerException("Customer not found");
+	public List<Customer> viewAllCustomers() throws CustomerIdException {
+	
+			List<Customer> customerlist = customerDao.findAll();
+			if (customerlist.isEmpty())
+				throw new CustomerIdException(ShoppingConstants.CUSTOMER_NOT_FOUND);
+			customerlist.sort((a1, a2) -> a1.getFirstName().compareTo(a2.getFirstName()));
+			return customerlist;
+		
 	}
 
-//	@Override
-//	public List<Customer> ViewAllCustomers(String location) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
+//	
 
 }
