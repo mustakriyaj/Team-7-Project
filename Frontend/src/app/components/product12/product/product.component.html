@@ -1,0 +1,87 @@
+<header>
+    <app-admin></app-admin>
+</header>
+<section class="col-md-4 mx-auto">
+  <h2 class="test-center">Add Product</h2>
+  <div class="alert alert-success" *ngIf="msg !=undefined"> {{msg}}</div>
+  <div class="alert alert-danger" *ngIf="errorMsg != undefined">{{errorMsg}}</div>
+
+<div style="width: 500px; margin: auto;">
+  <div class="submit-form">
+
+    <form #frm="ngForm" (ngSubmit)="addProduct()">
+    <!--<form #form='ngForm' action="">-->
+
+
+          <label><b>Product Name</b></label>
+          <div><input type="text" placeholder="Enter Product Name" name="productName" [(ngModel)]="product.productName" required #mlpdtn="ngModel" class="form-control"></div>
+          <div class="alert alert-danger" *ngIf="mlpdtn.invalid && mlpdtn.touched">Product Name is required</div>
+
+          <label><b>Product Price</b></label>
+          <input type="text" placeholder="Enter Product Price" name="price" id="price" [(ngModel)]="product.price" #price="ngModel" pattern="[1-9][0-9]*" required class="form-control">
+          <div class="alert alert-danger" *ngIf="price.invalid && (price.dirty || price.touched)" >
+              <div class="alert alert-danger" *ngIf="price.errors?.required" >
+                  Product Price is required
+              </div>
+              <div class="alert alert-danger" *ngIf="price.errors?.pattern" >
+                Product price must contain only numbers and doesn't start from 0
+            </div>
+        </div>
+
+        <label><b>Color</b></label>
+                <input type="text" placeholder="Enter Product Color" name="color" id="color" [(ngModel)]="product.color" #color="ngModel"  required class="form-control">
+                <div *ngIf="color.invalid && (color.dirty ||color.touched)" class="alert alert-danger">
+                    <div *ngIf="color.errors?.required" class="alert alert-danger">
+                        Product color name is required.
+                    </div>
+                    <div *ngIf="color.errors?.pattern" class="alert alert-danger">
+                        Product color name must not contain any digits.
+                    </div>
+                  </div>
+
+          <label><b>Dimensions</b></label>
+                  <input type="text" placeholder="Enter Product dimensions (Ex 3D 2D or 23*67*56)" name="dimension" id="dimemsion" [(ngModel)]="product.dimension" #dimensions="ngModel" required class="form-control">
+                  <div *ngIf="dimensions.invalid && dimensions.touched" class="alert alert-danger">
+                      Please enter product dimensions
+                  </div>
+
+          <label><b>Specification</b></label>
+                  <input type="text" placeholder="Enter Product specification" name="specification" id="specification" [(ngModel)]="product.specification" #specification="ngModel" required class="form-control">
+                  <div *ngIf="specification.invalid && specification.touched" class="alert alert-danger">
+                      Please enter product specification
+                  </div>
+
+          <label><b>Manufaturer</b></label>
+                  <input type="text" placeholder="Enter Product Manufaturer" name=" manufacturer" id=" manufacturer" [(ngModel)]="product. manufacturer" #manufacturer="ngModel" required class="form-control">
+                  <div *ngIf="specification.invalid && specification.touched" class="alert alert-danger">
+                      Please enter product manufacturer
+                  </div>
+
+          <label><b>Product Quantity</b></label>
+                  <input type="text" placeholder="Enter Product Quantity" name="quantity" id="quantity" [(ngModel)]="product.quantity" #quantity="ngModel" pattern="[0-9]*" required class="form-control">
+                  <div *ngIf="quantity.invalid && (quantity.dirty ||quantity.touched)" class="alert alert-danger">
+                      <div *ngIf="quantity.errors?.required" class="alert alert-danger">
+                          Product quantity is required
+                      </div>
+                      <div *ngIf="quantity.errors?.pattern" class="alert alert-danger">
+                        Product quantity must contain only numbers
+                    </div>
+                </div>
+
+
+          <label><b>Category</b></label>
+          <select placeholder="Enter Product Category" name=" catId" id=" catId" [(ngModel)]="product.catId" #catId="ngModel" required class="form-control">
+            <option *ngFor="let category of categories" value={{category.catId}}>{{ category.categoryName }}</option>
+          </select>
+          <div *ngIf="catId.invalid && catId.touched" class="alert alert-danger">
+              Please enter product category
+          </div>
+
+
+
+          <div class="mt-2 text-center"><input type="submit" value="Add Product" [disabled]="!frm.valid" class="btn btn-danger"/> </div>
+        </form>
+     </div>
+  </div>
+
+</section>

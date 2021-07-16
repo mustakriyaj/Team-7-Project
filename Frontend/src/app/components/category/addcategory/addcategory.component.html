@@ -1,0 +1,18 @@
+<header>
+    <app-admin></app-admin>
+</header>
+<body>
+<section class="col-md-4 mx-auto">
+    <h2 class="test-center">Add Category</h2>
+    <div class="alert alert-success" *ngIf="msg !=undefined"> {{msg}}</div>
+    <div class="alert alert-danger" *ngIf="errorMsg != undefined">{{errorMsg}}</div>
+    
+    <form #frm="ngForm" (ngSubmit)="addCategory()">
+        <div>Category Name</div>
+        <div><input type="text" name="cname" [(ngModel)]="category.categoryName" required #mlcname="ngModel" class="form-control"/></div>
+        <div class="alert alert-danger" *ngIf="mlcname.invalid && mlcname.touched"> Customer Name is required</div>
+
+        <div class="mt-2 text-center"><input type="submit" value="Add Category" [disabled]="!frm.valid" class="btn btn-danger"/> </div>
+    </form>
+</section>
+</body>

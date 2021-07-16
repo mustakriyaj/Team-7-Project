@@ -1,0 +1,28 @@
+<!--ViewProductbycategory-->
+<div>
+    <div class="container mt-5 mb-5" *ngFor="let product of products">
+        <div class="d-flex justify-content-center row">
+            <div class="col-md-10">
+                <div class="row p-2 bg-white border rounded">
+                    <div class="col-md-3 mt-1"><img class="img-fluid img-responsive rounded product-image" src="../../../assets/img/{{product.productId}}.jpg"></div>
+                    <div class="col-md-6 mt-1">
+                        <h1>{{product.productName | titlecase}}</h1>
+                        <div class="d-flex flex-row"></div>
+                        <div class="mt-1 mb-1 spec-1"><span>{{product.color| titlecase}}</span><span class="dot"></span><span>{{product.dimension | titlecase}}</span><span class="dot"></span><span>{{product.manufacturer | titlecase}}<br><br></span></div>
+                        <div class="mt-1 mb-1 spec-1"><span><b>{{checkstock(product.quantity)}}</b></span><span><br><br><br></span></div>
+                        <p class="text-justify para mb-0">{{product.specification| titlecase}}<br><br></p>
+                    </div>
+                    <div class="align-items-center align-content-center col-md-3 border-left mt-1">
+                        <div class="d-flex flex-row align-items-center">
+                            <h2 class="mr-1">{{product.price |currency:'₹ ':'code'}}</h2><span class="strike-text">{{product.price+851 |currency:'₹ ':'code'}}</span>
+                        </div>
+                        <h4 style="color:green">Free shipping</h4>
+                        <div class="d-flex flex-column mt-4"><button class="btn btn-outline-primary btn-sm mt-2" type="button" (click)="add(product.productId)" value="Add">Add to Cart</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align:right"><button class="btn-hover backbtn" (click)="back()">Back</button></div>
+
+    </div>
