@@ -35,12 +35,15 @@ public class ICartServiceImp implements ICartService
 	@Override
 	public CartItem addProductToCart(Integer customerId, Integer productId) throws CustomerNotFoundException, ProductNotFoundException {
 		Optional<Customer> optCustomer=custRepo.findById(customerId);
+		/*
 		if(optCustomer.isEmpty())
 			throw new CustomerNotFoundException(ShoppingConstants.CUSTOMER_NOT_FOUND);
-		Optional<Product> optProduct= productRepo.findById(productId);
-		if(optProduct.isEmpty())
+		*/
+		 Optional<Product> optProduct= productRepo.findById(productId);
+		/*
+		 if(optProduct.isEmpty())
 			throw new ProductNotFoundException(ShoppingConstants.PRODUCT_NOT_FOUND);
-		
+		 */
 		Product product =optProduct.get();
 		
 		if(product.getQuantity()<=0)
@@ -60,9 +63,11 @@ public class ICartServiceImp implements ICartService
 		
 		Optional<CartItem> optCart= cartRepo.findById(cartItemId);
 		
+		/*
 		if(optCart.isEmpty())
 			throw new ValidateCartException(ShoppingConstants.CART_ITEM_NOT_FOUND);
-		
+
+		 */
 		cartRepo.delete(optCart.get());
 		return true;
 	}
@@ -72,9 +77,10 @@ public class ICartServiceImp implements ICartService
 			throws ValidateCartException, CustomerNotFoundException {
 		
 		Optional<Customer> optCustomer=custRepo.findById(customerId);
+		/*
 		if(optCustomer.isEmpty())
 			throw new CustomerNotFoundException(ShoppingConstants.CUSTOMER_NOT_FOUND);
-		
+		 */
 		List<CartItem> cartList= cartRepo.getCartItems(customerId);
 		
 		if(cartList.isEmpty())

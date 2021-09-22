@@ -26,7 +26,7 @@ public class ILoginServiceImp implements ILoginService, UserDetailsService
 
     
     public User addUser(LoginDto loginDto) throws ValidateUserException {
-        validateUser(loginDto);
+        // validateUser(loginDto);
         User user = new User();
         user.setUserEmail(loginDto.getUserEmail());
         //user.setPassword(BCryptPasswordEncoder.encode(loginDto.getPassword()));
